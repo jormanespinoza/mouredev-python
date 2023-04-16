@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 # Start server: python -m uvicorn users:app --reload
-
 app = FastAPI()
 
 
