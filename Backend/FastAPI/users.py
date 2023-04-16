@@ -5,25 +5,74 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+
 # Entity User
-
-
 class User(BaseModel):
+    id: int
     name: str
     surname: str
     url: str
     age: int
 
 
-users = [User("Jorman", "Espinoza", "https://jormanespinoza.com", 33)]
-
-
-@app.get("/users")
-async def users():
-    return users
+users_list = [
+    User(
+        id=1,
+        name="Jorman",
+        surname="Espinoza",
+        url="https://jormanespinoza.com",
+        age=33,
+    ),
+    User(
+        id=2,
+        name="Fabio",
+        surname="Espinoza",
+        url="https://fabioespinoza.com",
+        age=24,
+    ),
+]
 
 
 @app.get("/usersjson")
 async def usersjson():
-    return [{"name": "Jorman", "surname": "Espinoza", "url": "https://jormanespinoza.com", "age": 33},
-            {"name": "Fabio", "surname": "Espinoza", "url": "https://fabioespinoza.com", "age": 24}]
+    return [
+        {
+            "id": 1,
+            "name": "Jorman",
+            "surname": "Espinoza",
+            "url": "https://jormanespinoza.com",
+            "age": 33,
+        },
+        {
+            "id": 2,
+            "name": "Fabio",
+            "surname": "Espinoza",
+            "url": "https://fabioespinoza.com",
+            "age": 24,
+        },
+    ]
+
+
+@app.get("/users")
+async def users():
+    return users_list
+
+
+# Path
+@app.get("/user/{id}")
+async def user(id: int):
+    return search_user(id)
+
+
+# Query
+@app.get("/user")
+async def user(id: int):
+    return search_user(id)
+
+
+def search_user(id: int):
+    try:
+        user = list(filter(lambda user: user.id == id, users_list))[0]
+        return user
+    except:
+        return {"error": "No se ha encontrado el usuario"}
