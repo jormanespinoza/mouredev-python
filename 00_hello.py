@@ -8,7 +8,6 @@ print(type(5))  # Tipo 'int'
 print(type(2.5))  # Tipo 'float'
 print(type(1 + 3j))  # Tipo 'complex'
 print(type(True))  # Tipo 'bool'
-
 print(type("Mi cadena de texto"))  # Tipo 'NoneType'
 
 """
